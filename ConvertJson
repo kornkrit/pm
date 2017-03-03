@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net;
+using System.Web.Script.Serialization;
+using System.Json;
+using Newtonsoft.Json;
+
+namespace ExtractJava
+{
+    public class Class1
+    {
+        public static void Main(String[] args) {
+            ExtractJson();
+        }
+        public static void ExtractJson() {
+
+            string jsonObj = "{\"Here\" : [{\"abc\": [{\"KeySearch\": [{\"ora_id\": \"ORA-00090: failed to allocate memory for cluster database ORADEBUG command\"";
+            jsonObj += "}],\"ObjResults\": [{\"word\": [{\"caused\": \" Could not allocate memory needed to execute cluster database oradebug.\",\"actions\": \"Reissue the command on each instance with single-instance oradebug.\",\"score\": 0.91";
+            jsonObj += "}]}]}]}]}";
+          
+
+
+            var results = JsonConvert.DeserializeObject<RootWord>(jsonObj);
+            var a = results.Here[0];
+            
+
+            Console.WriteLine(jsonObj);
+        }
+    }
+    public class KeySearch
+    {
+        public string ora_id { get; set; }
+    }
+
+    public class Word
+    {
+        public string caused { get; set; }
+        public string actions { get; set; }
+        public double score { get; set; }
+    }
+
+    public class ObjResult
+    {
+        public IList<Word> word { get; set; }
+    }
+
+    public class Abc
+    {
+        public IList<KeySearch> KeySearch { get; set; }
+        public IList<ObjResult> ObjResults { get; set; }
+    }
+
+    public class Here
+    {
+        public IList<Abc> abc { get; set; }
+    }
+
+    public class RootWord
+    {
+        public IList<Here> Here { get; set; }
+    }
+
+
+
+}
